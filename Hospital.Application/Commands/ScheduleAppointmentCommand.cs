@@ -1,3 +1,5 @@
+using NodaTime;
+
 namespace Hospital.Application.Commands;
 
 /// <summary>
@@ -6,7 +8,7 @@ namespace Hospital.Application.Commands;
 public record ScheduleAppointmentCommand(
     string Cpr,
     string PatientName,
-    DateTime AppointmentDate,
+    Instant AppointmentDate,
     string Department,
     string DoctorName
 );

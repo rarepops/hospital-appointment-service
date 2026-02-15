@@ -2,6 +2,7 @@ using Hospital.Domain.Entities;
 using Hospital.Domain.Interfaces;
 using Hospital.Domain.Results;
 using Microsoft.Extensions.Logging;
+using NodaTime;
 
 namespace Hospital.Application.Commands;
 
@@ -14,6 +15,7 @@ public class ScheduleAppointmentHandler(
     IAppointmentRepository appointmentRepository,
     INationalRegistryService nationalRegistryService,
     IEnumerable<IDepartmentValidator> departmentValidators,
+    IClock clock,
     ILogger<ScheduleAppointmentHandler> logger
 )
 {
@@ -24,12 +26,11 @@ public class ScheduleAppointmentHandler(
 
     public async Task<Result> HandleAsync(ScheduleAppointmentCommand command)
     {
-        // Basic input validation
         if (
             string.IsNullOrWhiteSpace(command.Cpr)
             || string.IsNullOrWhiteSpace(command.Department)
             || string.IsNullOrWhiteSpace(command.DoctorName)
-            || command.AppointmentDate < DateTime.UtcNow
+            || command.AppointmentDate <= clock.GetCurrentInstant()
         )
         {
             logger.LogWarning("Invalid appointment request received.");
@@ -38,14 +39,12 @@ public class ScheduleAppointmentHandler(
             );
         }
 
-        // Validate CPR via external registry
         if (!await nationalRegistryService.ValidateCpr(command.Cpr))
         {
             logger.LogWarning("CPR validation failed for {Cpr}.", command.Cpr);
             return Result.Failure("Invalid CPR number. Cannot schedule appointment.");
         }
 
-        // Resolve and run department-specific validation
         if (!_validators.TryGetValue(command.Department, out var validator))
         {
             logger.LogWarning("No validator registered for department {Department}.", command.Department);
@@ -63,7 +62,20 @@ public class ScheduleAppointmentHandler(
             return Result.Failure(departmentResult.ErrorMessage!);
         }
 
-        // Persist the appointment
+        // Check for duplicate appointment
+        if (await appointmentRepository.ExistsAsync(command.Cpr, command.Department, command.AppointmentDate))
+        {
+            logger.LogWarning(
+                "Duplicate appointment for {Cpr} in {Department} on {Date}.",
+                command.Cpr,
+                command.Department,
+                command.AppointmentDate
+            );
+            return Result.Failure(
+                "An appointment already exists for this patient in the same department at the specified time."
+            );
+        }
+
         var appointment = new Appointment
         {
             Cpr = command.Cpr,

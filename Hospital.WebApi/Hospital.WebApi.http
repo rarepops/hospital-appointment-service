@@ -7,12 +7,12 @@ Content-Type: application/json
 {
     "Cpr": "123456-7890",
     "PatientName": "John Doe",
-    "AppointmentDate": "2026-03-01T10:00:00",
+    "AppointmentDate": "2026-03-01T10:00:00Z",
     "Department": "Radiology",
     "DoctorName": "Dr. Smith"
 }
 
-### Get All (should return 1)
+### Get All
 GET {{HostAddress}}/appointments
 
 ### Create Second Appointment
@@ -22,18 +22,18 @@ Content-Type: application/json
 {
     "Cpr": "234567-8901",
     "PatientName": "Jane Doe",
-    "AppointmentDate": "2026-03-15T14:00:00",
+    "AppointmentDate": "2026-03-15T14:00:00Z",
     "Department": "Surgery",
     "DoctorName": "Dr. Johnson"
 }
 
-### Get All (should return 2)
+### Get All
 GET {{HostAddress}}/appointments
 
 ### Get by ID
 GET {{HostAddress}}/appointments/1
 
-### Delete Appointment
+### Delete
 DELETE {{HostAddress}}/appointments/1
 
 ### Invalid - Past Date
@@ -43,7 +43,7 @@ Content-Type: application/json
 {
     "Cpr": "123456-7890",
     "PatientName": "John Doe",
-    "AppointmentDate": "2020-01-01T10:00:00",
+    "AppointmentDate": "2020-01-01T10:00:00Z",
     "Department": "Radiology",
     "DoctorName": "Dr. Smith"
 }
@@ -55,7 +55,7 @@ Content-Type: application/json
 {
     "Cpr": "123456-7890",
     "PatientName": "John Doe",
-    "AppointmentDate": "2026-03-01T10:00:00",
+    "AppointmentDate": "2026-03-01T10:00:00Z",
     "Department": "Dermatology",
     "DoctorName": "Dr. Smith"
 }

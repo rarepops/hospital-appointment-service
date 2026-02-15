@@ -1,9 +1,11 @@
+using NodaTime;
+
 namespace Hospital.WebApi.Endpoints;
 
 public record AppointmentRequest(
     string Cpr,
     string PatientName,
-    DateTime AppointmentDate,
+    Instant AppointmentDate,
     string Department,
     string DoctorName
 );

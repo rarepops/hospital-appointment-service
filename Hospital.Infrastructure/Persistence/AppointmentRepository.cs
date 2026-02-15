@@ -1,6 +1,7 @@
 using Hospital.Domain.Entities;
 using Hospital.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using NodaTime;
 using ZiggyCreatures.Caching.Fusion;
 
 namespace Hospital.Infrastructure.Persistence;
@@ -50,5 +51,12 @@ public class AppointmentRepository(AppointmentDbContext dbContext, IFusionCache 
             await cache.RemoveAsync($"appointment:{id}");
             await cache.RemoveAsync("appointments:all");
         }
+    }
+
+    public async Task<bool> ExistsAsync(string cpr, string department, Instant appointmentDate)
+    {
+        return await dbContext.Appointments.AnyAsync(a =>
+            a.Cpr == cpr && a.Department == department && a.AppointmentDate == appointmentDate
+        );
     }
 }
