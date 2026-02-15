@@ -3,6 +3,9 @@ using Hospital.Infrastructure;
 using Hospital.WebApi.Endpoints;
 using NodaTime;
 using NodaTime.Serialization.SystemTextJson;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +17,20 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 {
     options.SerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
 });
+
+builder
+    .Services.AddOpenTelemetry()
+    .ConfigureResource(resource => resource.AddService("Hospital.WebApi"))
+    .WithTracing(tracing =>
+    {
+        tracing.AddAspNetCoreInstrumentation().AddHttpClientInstrumentation().AddConsoleExporter();
+    })
+    .WithMetrics(metrics =>
+    {
+        metrics.AddAspNetCoreInstrumentation().AddHttpClientInstrumentation();
+        
+        // TODO: Add .AddOtlpExporter() later when you have a collector
+    });
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
