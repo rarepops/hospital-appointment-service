@@ -24,7 +24,10 @@ public class ScheduleAppointmentHandler(
         StringComparer.OrdinalIgnoreCase
     );
 
-    public async Task<Result> HandleAsync(ScheduleAppointmentCommand command)
+    public async Task<Result<Appointment>> HandleAsync(
+        ScheduleAppointmentCommand command,
+        CancellationToken cancellationToken = default
+    )
     {
         if (
             string.IsNullOrWhiteSpace(command.Cpr)
@@ -34,7 +37,7 @@ public class ScheduleAppointmentHandler(
         )
         {
             logger.LogWarning("Invalid appointment request received.");
-            return Result.Failure(
+            return Result<Appointment>.Failure(
                 "Invalid appointment request. Ensure all fields are provided and the date is in the future."
             );
         }
@@ -42,13 +45,13 @@ public class ScheduleAppointmentHandler(
         if (!await nationalRegistryService.ValidateCpr(command.Cpr))
         {
             logger.LogWarning("CPR validation failed for {Cpr}.", command.Cpr);
-            return Result.Failure("Invalid CPR number. Cannot schedule appointment.");
+            return Result<Appointment>.Failure("Invalid CPR number. Cannot schedule appointment.");
         }
 
         if (!_validators.TryGetValue(command.Department, out var validator))
         {
             logger.LogWarning("No validator registered for department {Department}.", command.Department);
-            return Result.Failure($"Unsupported department: {command.Department}.");
+            return Result<Appointment>.Failure($"Unsupported department: {command.Department}.");
         }
 
         var departmentResult = await validator.ValidateAsync(command.Cpr, command.DoctorName);
@@ -59,11 +62,17 @@ public class ScheduleAppointmentHandler(
                 command.Department,
                 departmentResult.ErrorMessage
             );
-            return Result.Failure(departmentResult.ErrorMessage!);
+            return Result<Appointment>.Failure(departmentResult.ErrorMessage!);
         }
 
-        // Check for duplicate appointment
-        if (await appointmentRepository.ExistsAsync(command.Cpr, command.Department, command.AppointmentDate))
+        if (
+            await appointmentRepository.ExistsAsync(
+                command.Cpr,
+                command.Department,
+                command.AppointmentDate,
+                cancellationToken
+            )
+        )
         {
             logger.LogWarning(
                 "Duplicate appointment for {Cpr} in {Department} on {Date}.",
@@ -71,7 +80,7 @@ public class ScheduleAppointmentHandler(
                 command.Department,
                 command.AppointmentDate
             );
-            return Result.Failure(
+            return Result<Appointment>.Failure(
                 "An appointment already exists for this patient in the same department at the specified time."
             );
         }
@@ -85,7 +94,7 @@ public class ScheduleAppointmentHandler(
             DoctorName = command.DoctorName,
         };
 
-        await appointmentRepository.AddAsync(appointment);
+        var created = await appointmentRepository.AddAsync(appointment, cancellationToken);
 
         logger.LogInformation(
             "Appointment scheduled for {PatientName} (CPR: {Cpr}) in {Department} with {DoctorName} on {Date}.",
@@ -96,6 +105,6 @@ public class ScheduleAppointmentHandler(
             command.AppointmentDate
         );
 
-        return Result.Success();
+        return Result<Appointment>.Success(created);
     }
 }

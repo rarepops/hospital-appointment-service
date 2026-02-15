@@ -12,7 +12,7 @@ Content-Type: application/json
     "DoctorName": "Dr. Smith"
 }
 
-### Get All
+### Get All (should return 1)
 GET {{HostAddress}}/appointments
 
 ### Create Second Appointment
@@ -27,14 +27,29 @@ Content-Type: application/json
     "DoctorName": "Dr. Johnson"
 }
 
-### Get All
+### Get All (should return 2)
 GET {{HostAddress}}/appointments
 
 ### Get by ID
 GET {{HostAddress}}/appointments/1
 
-### Delete
+### Update Appointment
+PUT {{HostAddress}}/appointments/1
+Content-Type: application/json
+
+{
+    "Cpr": "123456-7890",
+    "PatientName": "John Doe",
+    "AppointmentDate": "2026-04-01T10:00:00Z",
+    "Department": "Radiology",
+    "DoctorName": "Dr. Brown"
+}
+
+### Delete Appointment
 DELETE {{HostAddress}}/appointments/1
+
+### Delete Non-Existent (should return 404)
+DELETE {{HostAddress}}/appointments/999
 
 ### Invalid - Past Date
 POST {{HostAddress}}/appointments

@@ -11,25 +11,29 @@ public static class AppointmentEndpoints
 
         group.MapGet(
             "/",
-            async (IAppointmentRepository repository) =>
+            async (IAppointmentRepository repository, CancellationToken cancellationToken) =>
             {
-                var appointments = await repository.GetAllAsync();
+                var appointments = await repository.GetAllAsync(cancellationToken);
                 return Results.Ok(appointments);
             }
         );
 
         group.MapGet(
             "/{id:int}",
-            async (int id, IAppointmentRepository repository) =>
+            async (int id, IAppointmentRepository repository, CancellationToken cancellationToken) =>
             {
-                var appointment = await repository.GetByIdAsync(id);
+                var appointment = await repository.GetByIdAsync(id, cancellationToken);
                 return appointment is not null ? Results.Ok(appointment) : Results.NotFound();
             }
         );
 
         group.MapPost(
             "/",
-            async (AppointmentRequest request, ScheduleAppointmentHandler handler) =>
+            async (
+                AppointmentRequest request,
+                ScheduleAppointmentHandler handler,
+                CancellationToken cancellationToken
+            ) =>
             {
                 var command = new ScheduleAppointmentCommand(
                     request.Cpr,
@@ -39,20 +43,44 @@ public static class AppointmentEndpoints
                     request.DoctorName
                 );
 
-                var result = await handler.HandleAsync(command);
+                var result = await handler.HandleAsync(command, cancellationToken);
 
                 return result.IsSuccess
-                    ? Results.Ok("Appointment scheduled successfully.")
+                    ? Results.Created($"/appointments/{result.Data!.Id}", result.Data)
                     : Results.BadRequest(result.ErrorMessage);
+            }
+        );
+
+        group.MapPut(
+            "/{id:int}",
+            async (
+                int id,
+                AppointmentRequest request,
+                IAppointmentRepository repository,
+                CancellationToken cancellationToken
+            ) =>
+            {
+                var existing = await repository.GetByIdAsync(id, cancellationToken);
+                if (existing is null)
+                    return Results.NotFound();
+
+                existing.Cpr = request.Cpr;
+                existing.PatientName = request.PatientName;
+                existing.AppointmentDate = request.AppointmentDate;
+                existing.Department = request.Department;
+                existing.DoctorName = request.DoctorName;
+
+                await repository.UpdateAsync(existing, cancellationToken);
+                return Results.Ok(existing);
             }
         );
 
         group.MapDelete(
             "/{id:int}",
-            async (int id, IAppointmentRepository repository) =>
+            async (int id, IAppointmentRepository repository, CancellationToken cancellationToken) =>
             {
-                await repository.DeleteAsync(id);
-                return Results.NoContent();
+                var deleted = await repository.DeleteAsync(id, cancellationToken);
+                return deleted ? Results.NoContent() : Results.NotFound();
             }
         );
     }
