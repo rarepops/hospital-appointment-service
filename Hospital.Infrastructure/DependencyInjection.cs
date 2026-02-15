@@ -5,6 +5,7 @@ using Hospital.Infrastructure.Validators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ZiggyCreatures.Caching.Fusion;
 
 namespace Hospital.Infrastructure;
 
@@ -30,6 +31,17 @@ public static class DependencyInjection
         services.AddScoped<IDepartmentValidator, PhysiotherapyValidator>();
         services.AddScoped<IDepartmentValidator, SurgeryValidator>();
         services.AddScoped<IDepartmentValidator, RadiologyValidator>();
+
+        // Cache
+        services
+            .AddFusionCache()
+            .WithDefaultEntryOptions(
+                new FusionCacheEntryOptions
+                {
+                    Duration = TimeSpan.FromMinutes(5),
+                    FailSafeMaxDuration = TimeSpan.FromHours(1),
+                }
+            );
 
         return services;
     }
