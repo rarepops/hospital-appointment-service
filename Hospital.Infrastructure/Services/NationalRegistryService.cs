@@ -25,6 +25,6 @@ public class NationalRegistryService(
         // TODO: Actual HTTP call is omitted (dummy endpoint)
 
         logger.LogInformation("CPR validation successful for {Cpr}.", cpr);
-        return true;
+        return await Task.FromResult(true);
     }
 }

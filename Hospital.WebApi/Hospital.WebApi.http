@@ -1,13 +1,61 @@
-@Hospital.WebApi_HostAddress = http://localhost:5082
+@HostAddress = http://localhost:5082
 
-POST {{Hospital.WebApi_HostAddress}}/appointments
+### Create First Appointment
+POST {{HostAddress}}/appointments
 Content-Type: application/json
-Accept: application/json
 
 {
     "Cpr": "123456-7890",
     "PatientName": "John Doe",
-    "AppointmentDate": "2025-05-20T10:00:00",
+    "AppointmentDate": "2026-03-01T10:00:00",
     "Department": "Radiology",
+    "DoctorName": "Dr. Smith"
+}
+
+### Get All (should return 1)
+GET {{HostAddress}}/appointments
+
+### Create Second Appointment
+POST {{HostAddress}}/appointments
+Content-Type: application/json
+
+{
+    "Cpr": "234567-8901",
+    "PatientName": "Jane Doe",
+    "AppointmentDate": "2026-03-15T14:00:00",
+    "Department": "Surgery",
+    "DoctorName": "Dr. Johnson"
+}
+
+### Get All (should return 2)
+GET {{HostAddress}}/appointments
+
+### Get by ID
+GET {{HostAddress}}/appointments/1
+
+### Delete Appointment
+DELETE {{HostAddress}}/appointments/1
+
+### Invalid - Past Date
+POST {{HostAddress}}/appointments
+Content-Type: application/json
+
+{
+    "Cpr": "123456-7890",
+    "PatientName": "John Doe",
+    "AppointmentDate": "2020-01-01T10:00:00",
+    "Department": "Radiology",
+    "DoctorName": "Dr. Smith"
+}
+
+### Invalid - Unsupported Department
+POST {{HostAddress}}/appointments
+Content-Type: application/json
+
+{
+    "Cpr": "123456-7890",
+    "PatientName": "John Doe",
+    "AppointmentDate": "2026-03-01T10:00:00",
+    "Department": "Dermatology",
     "DoctorName": "Dr. Smith"
 }
