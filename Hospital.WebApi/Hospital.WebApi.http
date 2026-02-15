@@ -1,0 +1,13 @@
+@Hospital.WebApi_HostAddress = http://localhost:5082
+
+POST {{Hospital.WebApi_HostAddress}}/appointments
+Content-Type: application/json
+Accept: application/json
+
+{
+    "Cpr": "123456-7890",
+    "PatientName": "John Doe",
+    "AppointmentDate": "2025-05-20T10:00:00",
+    "Department": "Radiology",
+    "DoctorName": "Dr. Smith"
+}
