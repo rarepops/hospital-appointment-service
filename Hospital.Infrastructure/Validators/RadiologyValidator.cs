@@ -30,14 +30,14 @@ public class RadiologyValidator(ILogger<RadiologyValidator> logger) : IDepartmen
 
     private bool HasValidReferral(string cpr)
     {
-        logger.LogInformation("Checking referral for {Cpr} in Radiology.", cpr);
+        logger.LogDebug("Checking referral for {Cpr} in Radiology.", cpr);
         // TODO: Placeholder
         return true;
     }
 
     private bool HasValidFinancialApproval(string cpr)
     {
-        logger.LogInformation("Checking financial approval for {Cpr} in Radiology.", cpr);
+        logger.LogDebug("Checking financial approval for {Cpr} in Radiology.", cpr);
         // TODO: Placeholder
         return true;
     }

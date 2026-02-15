@@ -30,14 +30,14 @@ public class PhysiotherapyValidator(ILogger<PhysiotherapyValidator> logger) : ID
 
     private bool HasValidReferral(string cpr)
     {
-        logger.LogInformation("Checking referral for {Cpr} in Physiotherapy.", cpr);
+        logger.LogDebug("Checking referral for {Cpr} in Physiotherapy.", cpr);
         // TODO: Placeholder
         return true;
     }
 
     private bool HasValidInsuranceApproval(string cpr)
     {
-        logger.LogInformation("Checking insurance approval for {Cpr} in Physiotherapy.", cpr);
+        logger.LogDebug("Checking insurance approval for {Cpr} in Physiotherapy.", cpr);
         // TODO: Placeholder
         return true;
     }

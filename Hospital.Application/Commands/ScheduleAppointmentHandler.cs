@@ -44,7 +44,8 @@ public class ScheduleAppointmentHandler(
 
         if (!await nationalRegistryService.ValidateCpr(command.Cpr))
         {
-            logger.LogWarning("CPR validation failed for {Cpr}.", command.Cpr);
+            logger.LogWarning("CPR validation failed.");
+            logger.LogDebug("CPR validation failed for {Cpr}.", command.Cpr);
             return Result<Appointment>.Failure("Invalid CPR number. Cannot schedule appointment.");
         }
 
@@ -74,7 +75,8 @@ public class ScheduleAppointmentHandler(
             )
         )
         {
-            logger.LogWarning(
+            logger.LogWarning("Duplicate appointment detected in {Department}.", command.Department);
+            logger.LogDebug(
                 "Duplicate appointment for {Cpr} in {Department} on {Date}.",
                 command.Cpr,
                 command.Department,
@@ -97,12 +99,15 @@ public class ScheduleAppointmentHandler(
         var created = await appointmentRepository.AddAsync(appointment, cancellationToken);
 
         logger.LogInformation(
-            "Appointment scheduled for {PatientName} (CPR: {Cpr}) in {Department} with {DoctorName} on {Date}.",
-            command.PatientName,
-            command.Cpr,
+            "Appointment scheduled in {Department} with {DoctorName} on {Date}.",
             command.Department,
             command.DoctorName,
             command.AppointmentDate
+        );
+        logger.LogDebug(
+            "Appointment details — PatientName: {PatientName}, CPR: {Cpr}.",
+            command.PatientName,
+            command.Cpr
         );
 
         return Result<Appointment>.Success(created);

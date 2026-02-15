@@ -23,7 +23,7 @@ public class SurgeryValidator(ILogger<SurgeryValidator> logger) : IDepartmentVal
 
     private bool HasValidReferral(string cpr)
     {
-        logger.LogInformation("Checking specialist referral for {Cpr} in Surgery.", cpr);
+        logger.LogDebug("Checking specialist referral for {Cpr} in Surgery.", cpr);
         // TODO: Placeholder
         return true;
     }

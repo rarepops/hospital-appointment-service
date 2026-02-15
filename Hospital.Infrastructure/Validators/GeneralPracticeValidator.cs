@@ -25,7 +25,7 @@ public class GeneralPracticeValidator(ILogger<GeneralPracticeValidator> logger) 
 
     private bool IsAssignedToGP(string cpr, string doctorName)
     {
-        logger.LogInformation("Checking GP assignment for {Cpr} with {DoctorName}.", cpr, doctorName);
+        logger.LogDebug("Checking GP assignment for {Cpr} with {DoctorName}.", cpr, doctorName);
         // TODO: Placeholder, implement actual logic
         return true;
     }
