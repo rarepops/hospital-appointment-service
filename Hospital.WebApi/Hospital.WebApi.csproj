@@ -8,16 +8,13 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.13" />
     <PackageReference Include="NodaTime.Serialization.SystemTextJson" Version="1.3.1" />
-    <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.15.0" />
-    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.15.0" />
-    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.15.0" />
-    <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.15.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Hospital.Application\Hospital.Application.csproj" />
     <ProjectReference Include="..\Hospital.Infrastructure\Hospital.Infrastructure.csproj" />
+    <ProjectReference Include="..\Hospital.ServiceDefaults\Hospital.ServiceDefaults.csproj" />
   </ItemGroup>
 
   <ItemGroup>

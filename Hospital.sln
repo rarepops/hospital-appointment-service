@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hospital.Domain", "Hospital
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hospital.Infrastructure", "Hospital.Infrastructure\Hospital.Infrastructure.csproj", "{998048DD-9FD6-423F-A966-183AC3C64A22}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hospital.AppHost", "Hospital.AppHost\Hospital.AppHost.csproj", "{54AAA30D-4002-4BB8-A0CE-5879B82212A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hospital.ServiceDefaults", "Hospital.ServiceDefaults\Hospital.ServiceDefaults.csproj", "{5D3424B9-620C-4112-8C14-066BFF252BDA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +73,30 @@ Global
 		{998048DD-9FD6-423F-A966-183AC3C64A22}.Release|x64.Build.0 = Release|Any CPU
 		{998048DD-9FD6-423F-A966-183AC3C64A22}.Release|x86.ActiveCfg = Release|Any CPU
 		{998048DD-9FD6-423F-A966-183AC3C64A22}.Release|x86.Build.0 = Release|Any CPU
+		{54AAA30D-4002-4BB8-A0CE-5879B82212A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54AAA30D-4002-4BB8-A0CE-5879B82212A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54AAA30D-4002-4BB8-A0CE-5879B82212A0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{54AAA30D-4002-4BB8-A0CE-5879B82212A0}.Debug|x64.Build.0 = Debug|Any CPU
+		{54AAA30D-4002-4BB8-A0CE-5879B82212A0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{54AAA30D-4002-4BB8-A0CE-5879B82212A0}.Debug|x86.Build.0 = Debug|Any CPU
+		{54AAA30D-4002-4BB8-A0CE-5879B82212A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54AAA30D-4002-4BB8-A0CE-5879B82212A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54AAA30D-4002-4BB8-A0CE-5879B82212A0}.Release|x64.ActiveCfg = Release|Any CPU
+		{54AAA30D-4002-4BB8-A0CE-5879B82212A0}.Release|x64.Build.0 = Release|Any CPU
+		{54AAA30D-4002-4BB8-A0CE-5879B82212A0}.Release|x86.ActiveCfg = Release|Any CPU
+		{54AAA30D-4002-4BB8-A0CE-5879B82212A0}.Release|x86.Build.0 = Release|Any CPU
+		{5D3424B9-620C-4112-8C14-066BFF252BDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D3424B9-620C-4112-8C14-066BFF252BDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D3424B9-620C-4112-8C14-066BFF252BDA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5D3424B9-620C-4112-8C14-066BFF252BDA}.Debug|x64.Build.0 = Debug|Any CPU
+		{5D3424B9-620C-4112-8C14-066BFF252BDA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5D3424B9-620C-4112-8C14-066BFF252BDA}.Debug|x86.Build.0 = Debug|Any CPU
+		{5D3424B9-620C-4112-8C14-066BFF252BDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D3424B9-620C-4112-8C14-066BFF252BDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D3424B9-620C-4112-8C14-066BFF252BDA}.Release|x64.ActiveCfg = Release|Any CPU
+		{5D3424B9-620C-4112-8C14-066BFF252BDA}.Release|x64.Build.0 = Release|Any CPU
+		{5D3424B9-620C-4112-8C14-066BFF252BDA}.Release|x86.ActiveCfg = Release|Any CPU
+		{5D3424B9-620C-4112-8C14-066BFF252BDA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

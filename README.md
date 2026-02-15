@@ -54,3 +54,16 @@ dotnet csharpier format .
 
 # Check formatting without modifying
 dotnet csharpier check .
+```
+
+### Running with Aspire Dashboard
+
+The solution includes [.NET Aspire](https://learn.microsoft.com/en-us/dotnet/aspire/) for observability (traces, metrics, logs, health checks) via a local dashboard.
+
+```bash
+# Requires the Aspire workload
+dotnet workload install aspire
+
+# Run via the AppHost
+dotnet run --project Hospital.AppHost
+```
