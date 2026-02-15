@@ -40,3 +40,17 @@ dotnet dev-certs https --trust
 # Run the application
 dotnet run --project Hospital.WebApi
 ```
+
+## Code Formatting
+
+This project uses [CSharpier](https://csharpier.com/) for consistent code formatting.
+
+```bash
+# Install (first time only)
+dotnet tool restore
+
+# Format all files
+dotnet csharpier format .
+
+# Check formatting without modifying
+dotnet csharpier check .
