@@ -5,6 +5,7 @@ A .NET 8 Web API for scheduling hospital appointments, built with **Clean Archit
 ## Prerequisites
 
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) (v8.0.418 or later, via `global.json`)
+- [Docker](https://www.docker.com/products/docker-desktop/) (optional)
 
 ## Getting Started
 
@@ -151,13 +152,15 @@ dotnet csharpier check .
 ## Docker
 
 ```bash
-# Build the image
+# Build and run locally
 docker build -t hospital-appointment-service .
-
-# Run the container
 docker run -p 8080:8080 hospital-appointment-service
+
+# Or pull from GitHub Container Registry
+docker pull ghcr.io/rarepops/hospital-appointment-service:latest
+docker run -p 8080:8080 ghcr.io/rarepops/hospital-appointment-service:latest
 ```
 
 ## CI/CD
 
-A GitHub Actions workflow runs on every push and pull request to `main`. It restores, builds the solution, and builds the Docker image. See [.github/workflows/build.yml](.github/workflows/build.yml).
+A [GitHub Actions workflow](.github/workflows/build.yml) builds and pushes to `ghcr.io` on push to `main`. PRs build only. Manual dispatch available. [Dependabot](.github/dependabot.yml) keeps dependencies updated.
