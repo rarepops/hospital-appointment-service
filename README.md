@@ -147,3 +147,17 @@ dotnet csharpier format .
 # Check formatting without modifying
 dotnet csharpier check .
 ```
+
+## Docker
+
+```bash
+# Build the image
+docker build -t hospital-appointment-service .
+
+# Run the container
+docker run -p 8080:8080 hospital-appointment-service
+```
+
+## CI/CD
+
+A GitHub Actions workflow runs on every push and pull request to `main`. It restores, builds the solution, and builds the Docker image. See [.github/workflows/build.yml](.github/workflows/build.yml).
