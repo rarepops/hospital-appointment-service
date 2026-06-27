@@ -164,3 +164,11 @@ docker run -p 8080:8080 ghcr.io/rarepops/hospital-appointment-service:latest
 ## CI/CD
 
 A [GitHub Actions workflow](.github/workflows/build.yml) builds and pushes to `ghcr.io` on push to `main`. PRs build only. Manual dispatch available. [Dependabot](.github/dependabot.yml) keeps dependencies updated.
+
+## License
+
+Copyright © 2026 Rares-Sebastian Popa.
+
+Licensed under the **PolyForm Strict License 1.0.0** — see [LICENSE.md](LICENSE.md).
+This permits noncommercial use only, with no distribution of the software or of
+changes or new works based on it.
